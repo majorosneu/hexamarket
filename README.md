@@ -49,21 +49,3 @@
    market_id (FK)
    yes_price
    recorded_at
-
-
-KAPCSOLATOK
-
-users.id       -> positions.user_id
-users.id       -> transactions.user_id
-
-markets.id     -> positions.market_id
-markets.id     -> transactions.market_id
-markets.id     -> price_history.market_id
-
-categories.id  -> markets.category_id
-
-
-PK = Primary Key
-FK = Foreign Key
-
-Minden kapcsolat 1:N.
