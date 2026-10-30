@@ -9,6 +9,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $json_adatok["email"];
     $jelszo = $json_adatok["jelszo"];
 
+    if ($muvelet == "belepes") {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        $adatok = $stmt->fetchAll();
+
+        if (count($adatok) == 0) {
+            echo json_encode(["hiba" => "Nincs ilyen felhasználó."]);
+        } else {
+            if ($jelszo === $adatok[0]["password"]) {
+                $stmt = $pdo->prepare("SELECT id, username, email, balance FROM users WHERE email = ?");
+                $stmt->execute([$email]);
+                $felhasznalo = $stmt->fetchAll();
+                echo json_encode(["felhasznalo" => $felhasznalo[0]]);
+            } else {
+                echo json_encode(["hiba" => "Hibás jelszó."]);
+            }
+        }
+    }
+
     if ($muvelet == "regisztracio") {
         $nev = $json_adatok["nev"];
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
