@@ -17,6 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $json_adatok = json_decode(file_get_contents("php://input"), true);
     $muvelet = $json_adatok["muvelet"];
+    if ($muvelet == "kilepes") {
+        session_unset();
+        session_destroy();
+        echo json_encode(["siker" => true]);
+        exit;
+    }
     $email = $json_adatok["email"];
     $jelszo = $json_adatok["jelszo"];
 
